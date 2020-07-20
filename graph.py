@@ -6,7 +6,7 @@ from ascii_base import float_to_letters
 
 
 letters = last_name_letters()
-print(letters.count('X'))
+
 print(f'Total Last Names: {len(letters)}')
 letters = [ord(letter) for letter in letters]
 
