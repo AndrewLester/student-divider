@@ -7,6 +7,7 @@ from typing import Dict, List, Optional
 
 BASE_URL = 'https://api.schoology.com/v1'
 save_file = 'saved.yml'
+building_id = 10704963
 
 # Load staff names from file
 with open('staff.yml') as file:
@@ -26,9 +27,8 @@ def schoology_req(endpoint: str, data: Optional[Dict] = None) -> Response:
         res = sc.schoology_auth.oauth.get(endpoint, headers=sc.schoology_auth._request_header(), auth=sc.schoology_auth.oauth.auth)
     return res
 
-
 def request_last_name_letters() -> List[str]:
-    users = get_paged_data(schoology_req, BASE_URL + '/users?limit=200', data_key='user')
+    users = get_paged_data(schoology_req, BASE_URL + f'/users?limit=200&building_id={building_id}', data_key='user')
     users = list(filter(lambda user: user['position'] is None or 'teacher' not in user['position'].lower(), users))
     users = list(filter(lambda user: [user['name_first'], user['name_last']] not in STAFF, users))
     last_name_letters = [user['name_last'][0].upper() for user in users]
